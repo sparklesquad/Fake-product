@@ -46,7 +46,8 @@ def insert_data():
         return render_template("form.html", message="Product added successfully")
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    @app.route('/verify', methods=['GET'])
+        
+@app.route('/verify', methods=['GET'])
 def verify_product():
     product_id = request.args.get('id')
     
@@ -57,7 +58,7 @@ def verify_product():
     product = collection.find_one({"id": product_id})
     
     if not product:
-        return jsonify({"status": 1, "message": "Fake product"}), 404  # Product doesn't exist
+        return jsonify({"message": "Fake product"}), 404  # Product doesn't exist
     
     # Check expiry date
     current_date = datetime.now()
@@ -66,19 +67,13 @@ def verify_product():
     if not expiry_date:
         return jsonify({"error": "No expiry date found for this product"}), 400
     
-    # Convert expiry_date string to datetime object if it's in string format
-    if isinstance(expiry_date, str):
-        try:
-            expiry_date = datetime.strptime(expiry_date, "%Y-%m-%d")  # Adjust format if necessary
-        except ValueError:
-            return jsonify({"error": "Invalid expiry date format"}), 400
-    
-    # Check if the product has expired
     if current_date > expiry_date:
-        return jsonify({"status": 2, "message": "Product expired"}), 200  # Product expired
+        return jsonify({
+            "message": f"Product {product_id} is expired. Expiry Date: {expiry_date.isoformat()}"
+        }), 200
     else:
-        return jsonify({"status": 3, "message": "Product valid"}), 200  # Product valid
-
-
+        return jsonify({
+            "message": f"Product {product_id} is valid. Expiry Date: {expiry_date.isoformat()}"
+        }), 200
 if __name__ == '__main__':
     app.run(debug=True)
