@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify,render_template
 from pymongo import MongoClient
 from datetime import datetime
+from flask_cors import CORS
 
 app = Flask(__name__)
+CORS(app)
 
 # MongoDB client setup (replace with your actual MongoDB URI)
 client = MongoClient('mongodb+srv://hematejaswi:1234567890@sparklesquad.kxlgr.mongodb.net/')
