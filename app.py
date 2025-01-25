@@ -7,7 +7,7 @@ app = Flask(__name__)
 CORS(app)
 
 # MongoDB client setup (replace with your actual MongoDB URI)
-client = MongoClient('mongodb+srv://hematejaswi:1234567890@sparklesquad.kxlgr.mongodb.net/')
+client = MongoClient('mongodb+srv://vasantha:1234567890@cluster0.nvygt.mongodb.net/')
 db = client['Fake_product']
 collection = db['products']
 
